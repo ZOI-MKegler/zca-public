@@ -1,0 +1,27 @@
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    function callAPI() {
+      const outputContainer = document.querySelector("#output");
+      outputContainer.innerHTML = "Bitte warten...";
+      
+      const statement = document.querySelector('#statement').value;
+      const url = 'https://zca-factcheck-dev.azurewebsites.net/api/validation';
+      const opt = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ statement }),
+      };
+
+      fetch(url, opt)
+        .then((response) => response.json())
+        .then((data) => {
+          outputContainer.innerHTML = marked.parse(data.validation);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          outputContainer.innerHTML = error;
+        });
+      }
+  </script>
