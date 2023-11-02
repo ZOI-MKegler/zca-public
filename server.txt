@@ -2,7 +2,6 @@
   <script>
     function callAPI() {
       const outputContainer = document.querySelector("#output");
-      outputContainer.innerHTML = "Bitte warten...";
       
       const statement = document.querySelector('#statement').value;
       const url = 'https://zca-factcheck-dev.azurewebsites.net/api/validation';
