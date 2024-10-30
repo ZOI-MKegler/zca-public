@@ -1,0 +1,38 @@
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      const input = document.querySelector(".input");
+      const answers = document.querySelector(".answers");
+      
+
+      const url =
+        "https://func-zca-factcheck-dev.azurewebsites.net/api/validation";
+
+      function pruefeBehauptung() {
+        const requestOptions = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            statement: input.value,
+          }),
+        };
+
+        answers.innerHTML = "Lass mich das überprüfen...";
+
+        fetch(url, requestOptions)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            if (!data.validation) {
+                answers.innerHTML = ("Oops: 🙈\n\nDa ist was schiefgelaufen...");
+            } else {
+                answers.innerHTML = marked.parse(data.validation);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            answers.innerHTML = "Oops 🙈\n\nDa ist was schiefgelaufen...";
+          });
+      }
+    </script>
